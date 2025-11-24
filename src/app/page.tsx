@@ -1,3 +1,29 @@
+export default function Home() {
+  console.log("Home component rendered");
+
+  return (
+    <div className="h-screen flex flex-col justify-center items-center text-center bg-linear-to-b from-white to-gray-100 dark:from-black dark:to-gray-900 text-black dark:text-white">
+      <h1 className="text-3xl font-bold mb-4">Testing EasyPay</h1>
+      <form action="/api/easypay" method="GET" className="flex flex-col gap-4">
+        <input
+          type="number"
+          name="amt"
+          placeholder="Enter amount"
+          required
+          className="px-4 py-2 text-black rounded-md border"
+        />
+        <button
+          type="submit"
+          className="px-6 py-2 text-lg bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
+
+
  //
 // export default function Home() {
 //   const handleClick = () => {
@@ -24,32 +50,3 @@
 //   );
 // }
 //
-export default function Home() {
-  // const rid = "EP_1762514248206_1";
-  // const crn = "CRN_1762514248206_1";
-
-  console.log("Home component rendered");
-
-  return (
-    <div className="h-screen flex flex-col justify-center items-center text-center bg-gradient-to-b from-white to-gray-100 dark:from-black dark:to-gray-900 text-black dark:text-white">
-      <h1 className="text-3xl font-bold mb-4">Testing EasyPay</h1>
-      <form action="http://15.206.249.5:3042/bapi/orders/easypay/initiate" method="GET" className="flex flex-col gap-4">
-        {/* <input type="hidden" name="rid" value={rid} /> */}
-        {/* <input type="hidden" name="crn" value={crn} /> */}
-        <input
-          type="number"
-          name="amt"
-          placeholder="Enter amount"
-          required
-          className="px-4 py-2 text-black rounded-md border"
-        />
-        <button
-          type="submit"
-          className="px-6 py-2 text-lg bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  );
-}
