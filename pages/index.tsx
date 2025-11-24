@@ -25,15 +25,17 @@
 // }
 //
 export default function Home() {
-  const rid = "EP_1762514248206_1";
-  const crn = "CRN_1762514248206_1";
+  // const rid = "EP_1762514248206_1";
+  // const crn = "CRN_1762514248206_1";
+
+  console.log("Home component rendered");
 
   return (
     <div className="h-screen flex flex-col justify-center items-center text-center bg-gradient-to-b from-white to-gray-100 dark:from-black dark:to-gray-900 text-black dark:text-white">
       <h1 className="text-3xl font-bold mb-4">Testing EasyPay</h1>
       <form action="http://15.206.249.5:3042/bapi/orders/easypay/initiate" method="GET" className="flex flex-col gap-4">
-        <input type="hidden" name="rid" value={rid} />
-        <input type="hidden" name="crn" value={crn} />
+        {/* <input type="hidden" name="rid" value={rid} /> */}
+        {/* <input type="hidden" name="crn" value={crn} /> */}
         <input
           type="number"
           name="amt"
