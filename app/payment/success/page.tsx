@@ -110,7 +110,7 @@ function PaymentSuccessContent() {
           )}
 
           <div className="space-y-3">
-            <button
+            {/* <button
               onClick={() => window.location.href = '/'}
               className={`w-full py-3 px-4 rounded-lg transition-colors font-medium ${
                 paymentData.status === 'success' 
@@ -119,7 +119,7 @@ function PaymentSuccessContent() {
               }`}
             >
               {paymentData.status === 'success' ? 'Continue Shopping' : 'Try Again'}
-            </button>
+            </button> */}
             
             <button
               onClick={() => window.close()}
