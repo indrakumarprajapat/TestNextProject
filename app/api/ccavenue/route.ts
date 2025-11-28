@@ -18,8 +18,29 @@ export async function POST(request: NextRequest) {
       body: `encResp=${encodeURIComponent(encResp)}`,
     });
 
-    // The backend will redirect, so we follow that redirect
-    return NextResponse.redirect(backendResponse.url);
+    const data = await backendResponse.json();
+    
+    // Map order_status to our status format
+    const statusMap: { [key: string]: string } = {
+      'Success': 'success',
+      'Failure': 'failed', 
+      'Aborted': 'cancelled',
+      'Invalid': 'failed',
+      'Timeout': 'failed'
+    };
+    
+    const status = statusMap[data.order_status] || 'failed';
+    
+    // Build redirect URL with payment data
+    const params = new URLSearchParams({
+      status,
+      orderId: data.order_id || '',
+      amount: data.amount || '',
+      trackingId: data.bank_ref_no || '',
+      message: `Payment ${data.order_status.toLowerCase()}. Mode: ${data.payment_mode || 'N/A'}`
+    });
+    
+    return NextResponse.redirect(new URL(`/payment/success?${params.toString()}`, request.url));
     
   } catch (error) {
     console.error('CCAvenue response processing error:', error);
