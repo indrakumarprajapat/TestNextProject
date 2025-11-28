@@ -4,13 +4,11 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const encResp = formData.get('encResp') as string;
-    
     if (!encResp) {
       return NextResponse.redirect(new URL('/payment/success?status=error&message=No response data', request.url));
     }
 
-    // Call your backend API to decrypt the response
-    const backendResponse = await fetch('https://7d9cbac7a91a.ngrok-free.app/ccavenue/payment-response', {
+    const backendResponse = await fetch(process.env.BACKEND_API_URL!, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -20,7 +18,6 @@ export async function POST(request: NextRequest) {
 
     const data = await backendResponse.json();
     
-    // Map order_status to our status format
     const statusMap: { [key: string]: string } = {
       'Success': 'success',
       'Failure': 'failed', 
@@ -30,8 +27,7 @@ export async function POST(request: NextRequest) {
     };
     
     const status = statusMap[data.order_status] || 'failed';
-    
-    // Build redirect URL with payment data
+
     const params = new URLSearchParams({
       status,
       orderId: data.order_id || '',

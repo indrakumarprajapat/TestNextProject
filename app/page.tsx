@@ -1,26 +1,20 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
-import { useRouter } from 'next/navigation';
+interface HomeProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-function HomeContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Check if this is a payment redirect
-    const status = searchParams.get('status');
-    if (status) {
-      // Redirect to payment success page with all parameters
-      const params = new URLSearchParams();
-      searchParams.forEach((value, key) => {
+export default function Home({ searchParams }: HomeProps) {
+  // Check if this is a payment redirect
+  if (searchParams.status) {
+    const params = new URLSearchParams();
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (typeof value === 'string') {
         params.append(key, value);
-      });
-      router.replace(`/payment/success?${params.toString()}`);
-      return;
-    }
-  }, [searchParams, router]);
+      }
+    });
+    redirect(`/payment/success?${params.toString()}`);
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -36,20 +30,12 @@ function HomeContent() {
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
             className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="/payment/success"
+            href={`${process.env.BASE_URL}payment/success`}
           >
             Payment Status
           </a>
         </div>
       </main>
     </div>
-  );
-}
-
-export default function Home() {
-  return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-zinc-50"><div className="text-lg">Loading...</div></div>}>
-      <HomeContent />
-    </Suspense>
   );
 }

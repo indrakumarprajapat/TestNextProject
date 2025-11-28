@@ -1,27 +1,17 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { Suspense } from 'react';
 
 function PaymentSuccessContent() {
   const searchParams = useSearchParams();
-  const [paymentData, setPaymentData] = useState({
-    status: '',
-    orderId: '',
-    amount: '',
-    message: '',
-    trackingId: ''
-  });
-
-  useEffect(() => {
-    setPaymentData({
-      status: searchParams.get('status') || '',
-      orderId: searchParams.get('orderId') || '',
-      amount: searchParams.get('amount') || '',
-      message: searchParams.get('message') || '',
-      trackingId: searchParams.get('trackingId') || ''
-    });
-  }, [searchParams]);
+  const paymentData = {
+    status: searchParams.get('status') || '',
+    orderId: searchParams.get('orderId') || '',
+    amount: searchParams.get('amount') || '',
+    message: searchParams.get('message') || '',
+    trackingId: searchParams.get('trackingId') || ''
+  };
 
   const getStatusConfig = () => {
     switch (paymentData.status) {
@@ -96,45 +86,40 @@ function PaymentSuccessContent() {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Transaction Details</h3>
               <div className="space-y-3">
                 <div className="flex justify-between py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Order ID</span>
-                  <span className="font-mono text-sm font-medium">{paymentData.orderId}</span>
+                  <span className="text-gray-700">Order ID</span>
+                  <span className="font-mono text-sm font-medium text-gray-900">{paymentData.orderId}</span>
                 </div>
                 {paymentData.amount && (
                   <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Amount</span>
-                    <span className="font-semibold text-lg">₹{paymentData.amount}</span>
+                    <span className="text-gray-700">Amount</span>
+                    <span className="font-semibold text-lg text-gray-900">₹{paymentData.amount}</span>
                   </div>
                 )}
                 {paymentData.trackingId && (
                   <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Transaction ID</span>
-                    <span className="font-mono text-sm font-medium">{paymentData.trackingId}</span>
+                    <span className="text-gray-700">Transaction ID</span>
+                    <span className="font-mono text-sm font-medium text-gray-900">{paymentData.trackingId}</span>
                   </div>
                 )}
                 <div className="flex justify-between py-2">
-                  <span className="text-gray-600">Date & Time</span>
-                  <span className="text-sm">{new Date().toLocaleString()}</span>
+                  <span className="text-gray-700">Date & Time</span>
+                  <span className="text-sm text-gray-900">{new Date().toLocaleString()}</span>
                 </div>
               </div>
             </div>
           )}
 
           <div className="space-y-3">
-            {paymentData.status === 'success' ? (
-              <button
-                onClick={() => window.location.href = '/'}
-                className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors font-medium"
-              >
-                Continue Shopping
-              </button>
-            ) : (
-              <button
-                onClick={() => window.location.href = '/'}
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-              >
-                Try Again
-              </button>
-            )}
+            <button
+              onClick={() => window.location.href = '/'}
+              className={`w-full py-3 px-4 rounded-lg transition-colors font-medium ${
+                paymentData.status === 'success' 
+                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+            >
+              {paymentData.status === 'success' ? 'Continue Shopping' : 'Try Again'}
+            </button>
             
             <button
               onClick={() => window.close()}
