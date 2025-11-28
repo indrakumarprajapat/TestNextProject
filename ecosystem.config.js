@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'Aavin-SCM-CB',
+      name: 'Aavin-Payment-Test',
       script: 'npm',
       args: 'start',
       cwd: '/home/ec2-user/var/www/uat/TestNextProject',
